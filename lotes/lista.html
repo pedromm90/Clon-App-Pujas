@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lotes - Listado</title>
+
+  <!-- CDN de Tailwind CSS -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- CDN de Font Awesome para los Iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+
+  <!-- Estilos CSS -->
+  <link rel="stylesheet" href="../css/estilos.css">
+
+  <!-- Dashboard CSS -->
+  <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+
+<body class="bg-[#0B7F34]/5 text-[#1A1A1A]">
+
+  <!-- ===== TOPBAR ===== -->
+  <header class="h-12 bg-[#063015] text-white flex items-center justify-between px-4 fixed top-0 left-0 right-0 z-50">
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-2 font-bold italic text-lg">
+        <span>App</span><span class="text-[#F4C430]">Pujas</span>
+        <i class="fa-solid fa-cow text-[#F4C430]"></i>
+      </div>
+      <button id="btnMenu" class="hover:text-[#F4C430] transition-colors"><i class="fa-solid fa-bars"></i></button>
+    </div>
+    <div class="flex items-center gap-5 text-xs">
+      <span><i class="fa-solid fa-location-dot mr-1 text-[#F4C430]"></i> La Victoria, CO</span>
+      <span id="relojTop"><i class="fa-solid fa-clock mr-1 text-[#F4C430]"></i> 07:36</span>
+      <span><i class="fa-solid fa-temperature-half mr-1 text-[#F4C430]"></i> 18°C</span>
+      <!-- Menú de usuario -->
+      <div class="relative">
+        <button id="btnUser" type="button" title="Menú de usuario"
+          class="w-8 h-8 rounded-full bg-[#F4C430] text-[#1A1A1A] grid place-items-center overflow-hidden hover:ring-2 hover:ring-[#F4C430]/70 transition">
+          <i class="fa-solid fa-user"></i>
+        </button>
+        <div id="menuUser"
+          class="hidden absolute right-0 mt-2 w-44 bg-white text-[#1A1A1A] rounded-lg shadow-lg border border-[#0B7F34]/15 py-1 z-[60] text-sm">
+          <a href="../login.html" class="flex items-center gap-3 px-4 py-2.5 hover:bg-[#0B7F34]/10 transition-colors">
+            <i class="fa-solid fa-right-from-bracket w-4 text-center text-[#0A6229]"></i> Salir
+          </a>
+          <a href="#" class="flex items-center gap-3 px-4 py-2.5 hover:bg-[#0B7F34]/10 transition-colors border-t border-[#0B7F34]/10">
+            <i class="fa-solid fa-key w-4 text-center text-[#0A6229]"></i> Cambiar Contraseña
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside id="sidebar"
+    class="w-52 fixed top-12 bottom-0 bg-white shadow flex flex-col text-sm transition-all -translate-x-52 lg:translate-x-0 z-40">
+    <!-- Perfil -->
+    <div class="relative h-28 bg-gradient-to-b from-[#063015] to-[#0B7F34] flex items-end p-3">
+      <div
+        class="absolute -bottom-5 left-3 w-12 h-12 rounded-full border-2 border-white bg-[#F4C430] text-[#1A1A1A] grid place-items-center text-xl">
+        <i class="fa-solid fa-user"></i>
+      </div>
+    </div>
+    <div class="pt-7 px-3 pb-2">
+      <p class="text-xs font-semibold">Licencia: Saganorte</p>
+      <select class="text-xs font-bold bg-transparent">
+        <option>Admin</option>
+        <option>Operador</option>
+      </select>
+    </div>
+    <nav class="flex-1 overflow-y-auto">
+      <a href="../index.html"
+        class="flex items-center gap-2 px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><i
+          class="fa-solid fa-chart-column w-4 text-center"></i>
+        Panel</a>
+      <a href="../martillo.html"
+        class="flex items-center gap-2 px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><i
+          class="fa-solid fa-gavel w-4 text-center"></i>
+        Martillo</a>
+
+      <!-- Usuarios -->
+      <button type="button" id="btnUsuarios"
+        class="w-full flex items-center justify-between px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><span
+          class="flex gap-2 items-center"><i class="fa-solid fa-users w-4 text-center"></i> Usuarios</span><i
+          id="iconUsuarios" class="fa-solid fa-chevron-down text-xs transition-transform"></i></button>
+      <div id="subUsuarios" class="hidden bg-[#0B7F34]/5">
+        <a href="../usuarios/lista.html"
+          class="flex items-center gap-2 pl-9 pr-3 py-2 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]">Listado</a>
+        <a href="../usuarios/importar.html"
+          class="flex items-center gap-2 pl-9 pr-3 py-2 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]">Importar</a>
+      </div>
+
+      <!-- Lotes (activo) -->
+      <button type="button" id="btnLotes"
+        class="w-full flex items-center justify-between px-3 py-2.5 text-[#0B7F34] font-semibold border-l-4 border-[#0B7F34] bg-[#0B7F34]/10"><span
+          class="flex gap-2 items-center"><i class="fa-solid fa-clipboard-list w-4 text-center"></i> Lotes</span><i
+          id="iconLotes" class="fa-solid fa-chevron-up text-xs transition-transform"></i></button>
+      <div id="subLotes" class="bg-[#0B7F34]/5">
+        <a href="lista.html"
+          class="flex items-center gap-2 pl-9 pr-3 py-2 text-[#0B7F34] font-semibold bg-[#0B7F34]/10">Listado</a>
+        <a href="importar.html"
+          class="flex items-center gap-2 pl-9 pr-3 py-2 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]">Importar</a>
+      </div>
+
+      <a href="../reportes.html"
+        class="flex items-center gap-2 px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><i
+          class="fa-solid fa-chart-line w-4 text-center"></i>
+        Reportes</a>
+      <a href="#"
+        class="flex items-center gap-2 px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><i
+          class="fa-solid fa-bullhorn w-4 text-center"></i>
+        Publicidad</a>
+      <a href="#"
+        class="flex items-center gap-2 px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><i
+          class="fa-solid fa-gear w-4 text-center"></i>
+        Configuración</a>
+      <a href="#"
+        class="flex items-center justify-between px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><span
+          class="flex gap-2 items-center"><i class="fa-solid fa-key w-4 text-center"></i> Admin</span><i
+          class="fa-solid fa-chevron-down text-xs"></i></a>
+    </nav>
+    <div class="p-3 border-t border-[#0B7F34]/20">
+      <select class="text-xs w-full bg-[#0B7F34]/5 border border-[#0A6229]/25 rounded p-1.5">
+        <option>Licencia Saganorte</option>
+      </select>
+    </div>
+  </aside>
+
+  <!-- ===== CONTENIDO ===== -->
+  <main class="pt-12 lg:ml-52">
+    <!-- Breadcrumb -->
+    <div class="bg-white shadow-sm px-6 py-3 flex justify-between items-center">
+      <span class="text-[#0B7F34] font-semibold">Listado Lotes</span>
+      <span class="text-xs text-[#1A1A1A]/60"><a href="../index.html"
+          class="text-[#0A6229] hover:text-[#063015]">Dashboard</a> &nbsp;›&nbsp; Listado Lotes</span>
+    </div>
+
+    <div class="p-4 space-y-4">
+
+      <!-- ===== FILTRO ===== -->
+      <section class="bg-white rounded shadow p-4">
+        <div class="flex flex-col xl:flex-row xl:items-end gap-4">
+          <div class="flex-1">
+            <label for="inputFiltro" class="text-xs font-semibold text-[#1A1A1A]/60">Filtro</label>
+            <input id="inputFiltro" type="search" class="input-line"
+              placeholder="Buscar por código, procedencia, tipo u observación">
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button id="btnCrear"
+              class="bg-[#0B7F34] hover:bg-[#08491F] text-white text-xs font-bold px-4 py-2 rounded transition-colors"><i
+                class="fa-solid fa-plus mr-1"></i> Crear Lote</button>
+            <button id="btnEliminarLotes"
+              class="bg-[#7D6519] hover:bg-[#1A1A1A] text-white text-xs font-bold px-4 py-2 rounded transition-colors">Eliminar
+              Lotes</button>
+            <button id="btnEliminarPujas"
+              class="bg-[#063015] hover:bg-[#08491F] text-white text-xs font-bold px-4 py-2 rounded transition-colors">Eliminar
+              Pujas</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== TABLA ===== -->
+      <section class="bg-white rounded shadow p-4">
+        <div class="flex justify-between items-center border-b-2 border-[#0B7F34] pb-2 mb-3">
+          <h2 class="font-bold">Lotes registrados</h2>
+          <span id="contador" class="text-xs text-[#1A1A1A]/60">0 lotes</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border-collapse min-w-[1300px]">
+            <thead>
+              <tr class="text-left text-xs text-[#1A1A1A]/60 border-b border-[#0B7F34]/20">
+                <th class="py-2 pr-4 font-semibold">Código</th>
+                <th class="py-2 pr-4 font-semibold">Sexo</th>
+                <th class="py-2 pr-4 font-semibold">Cant</th>
+                <th class="py-2 pr-4 font-semibold">Peso Tot</th>
+                <th class="py-2 pr-4 font-semibold">Peso Prom</th>
+                <th class="py-2 pr-4 font-semibold">Base</th>
+                <th class="py-2 pr-4 font-semibold">Incr</th>
+                <th class="py-2 pr-4 font-semibold">Tipo</th>
+                <th class="py-2 pr-4 font-semibold">Entrada</th>
+                <th class="py-2 pr-4 font-semibold">Procedencia</th>
+                <th class="py-2 pr-4 font-semibold">Proveedor</th>
+                <th class="py-2 pr-4 font-semibold">Tel.</th>
+                <th class="py-2 pr-4 font-semibold">Observaciones</th>
+                <th class="py-2 font-semibold text-center">Opciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyLista" class="divide-y divide-[#0B7F34]/10"></tbody>
+          </table>
+        </div>
+
+        <p id="sinResultados" class="hidden text-center text-[#1A1A1A]/40 italic py-8 text-sm">No se encontraron
+          lotes</p>
+
+        <!-- Paginación -->
+        <div class="flex flex-wrap items-center justify-end gap-4 mt-4 text-xs text-[#1A1A1A]/70">
+          <label class="flex items-center gap-2">Items per page:
+            <select id="perPage"
+              class="border-b-2 border-[#F4C430] bg-transparent font-bold text-[#1A1A1A] focus:outline-none">
+              <option>10</option>
+              <option>20</option>
+              <option>50</option>
+              <option>200</option>
+            </select>
+          </label>
+          <span id="rango">0 - 0 of 0</span>
+          <div class="flex gap-2">
+            <button id="btnPrev"
+              class="w-7 h-7 rounded-full hover:bg-[#0B7F34]/10 text-[#0A6229] grid place-items-center transition-colors"><i
+                class="fa-solid fa-chevron-left"></i></button>
+            <button id="btnNext"
+              class="w-7 h-7 rounded-full hover:bg-[#0B7F34]/10 text-[#0A6229] grid place-items-center transition-colors"><i
+                class="fa-solid fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    /* ================= DATOS ================= */
+    let lotes = [
+      { codigo: '001', sexo: 'HV', cant: 1, pesoTot: 300, pesoProm: 300, base: 6900, incr: 100, tipo: 'Subasta', entrada: '28/09/2026 06:54 AM', procedencia: 'ZARZAL', proveedor: '—', tel: '—', obs: '' },
+      { codigo: '002', sexo: 'HV', cant: 1, pesoTot: 335, pesoProm: 335, base: 7000, incr: 100, tipo: 'Subasta', entrada: '28/09/2026 06:55 AM', procedencia: 'ZARZAL', proveedor: '—', tel: '—', obs: '' },
+      { codigo: '003', sexo: 'HV', cant: 1, pesoTot: 415, pesoProm: 415, base: 8700, incr: 50, tipo: 'Subasta', entrada: '28/09/2026 06:56 AM', procedencia: 'ZARZAL', proveedor: '—', tel: '—', obs: '' },
+      { codigo: '004', sexo: 'TI', cant: 1, pesoTot: 355, pesoProm: 355, base: 1000, incr: 500, tipo: 'Subasta', entrada: '28/09/2026 06:56 AM', procedencia: 'ZARZAL', proveedor: '—', tel: '—', obs: 'CONDICIONADO' },
+      { codigo: '005', sexo: 'TR', cant: 1, pesoTot: 470, pesoProm: 470, base: 9500, incr: 100, tipo: 'Subasta', entrada: '28/09/2026 07:46 AM', procedencia: 'SEVILLA', proveedor: '—', tel: '—', obs: '' },
+      { codigo: '006', sexo: 'HV', cant: 2, pesoTot: 640, pesoProm: 320, base: 7200, incr: 100, tipo: 'Subasta', entrada: '28/09/2026 08:12 AM', procedencia: 'BUGA', proveedor: '—', tel: '—', obs: '' },
+      { codigo: '007', sexo: 'VI', cant: 1, pesoTot: 390, pesoProm: 390, base: 8100, incr: 100, tipo: 'Subasta', entrada: '28/09/2026 08:30 AM', procedencia: 'BUGA', proveedor: '—', tel: '—', obs: '' },
+      { codigo: '067', sexo: 'VI', cant: 1, pesoTot: 425, pesoProm: 425, base: 7000, incr: 100, tipo: 'Subasta', entrada: '28/09/2026 12:27 PM', procedencia: 'ARMENIA', proveedor: '—', tel: '—', obs: 'CONDICIONADO' },
+      { codigo: '068', sexo: 'HV', cant: 1, pesoTot: 335, pesoProm: 335, base: 7800, incr: 100, tipo: 'Subasta', entrada: '28/09/2026 12:27 PM', procedencia: 'ARMENIA', proveedor: '—', tel: '—', obs: '' },
+      { codigo: '069', sexo: 'TR', cant: 1, pesoTot: 505, pesoProm: 505, base: 9800, incr: 200, tipo: 'Subasta', entrada: '28/09/2026 01:05 PM', procedencia: 'ARMENIA', proveedor: '—', tel: '—', obs: '' },
+      { codigo: '070', sexo: 'HV', cant: 3, pesoTot: 990, pesoProm: 330, base: 7500, incr: 100, tipo: 'Subasta', entrada: '28/09/2026 01:40 PM', procedencia: 'TEBUQUILLO', proveedor: '—', tel: '—', obs: '' },
+      { codigo: 'PUBLICIDAD', sexo: 'Publici', cant: 1, pesoTot: 100, pesoProm: 100, base: 0, incr: 100, tipo: 'Subasta', entrada: '29/09/2026 09:24 AM', procedencia: 'SUGANORTE', proveedor: '—', tel: '—', obs: '' }
+    ];
+
+    let pagina = 1;
+    let porPagina = 10;
+
+    const $ = id => document.getElementById(id);
+
+    function filtrados() {
+      const q = $('inputFiltro').value.trim().toLowerCase();
+      if (!q) return lotes;
+      return lotes.filter(l =>
+        [l.codigo, l.procedencia, l.tipo, l.obs, l.sexo].join(' ').toLowerCase().includes(q));
+    }
+
+    function render() {
+      const lista = filtrados();
+      const total = lista.length;
+      const paginas = Math.max(1, Math.ceil(total / porPagina));
+      if (pagina > paginas) pagina = paginas;
+      const ini = (pagina - 1) * porPagina;
+      const paginaDatos = lista.slice(ini, ini + porPagina);
+
+      $('contador').textContent = total + (total === 1 ? ' lote' : ' lotes');
+      $('sinResultados').classList.toggle('hidden', total > 0);
+      $('rango').textContent = total ? `${ini + 1} - ${ini + paginaDatos.length} of ${total}` : '0 - 0 of 0';
+      $('btnPrev').disabled = pagina === 1;
+      $('btnNext').disabled = pagina === paginas;
+      $('btnPrev').classList.toggle('opacity-40', pagina === 1);
+      $('btnNext').classList.toggle('opacity-40', pagina === paginas);
+
+      $('tbodyLista').innerHTML = paginaDatos.map(l => {
+        const i = lotes.indexOf(l);
+        return `
+        <tr class="hover:bg-[#0B7F34]/5 transition-colors">
+          <td class="py-2.5 pr-4 font-semibold uppercase">${l.codigo}</td>
+          <td class="py-2.5 pr-4">${l.sexo}</td>
+          <td class="py-2.5 pr-4">${l.cant}</td>
+          <td class="py-2.5 pr-4">${l.pesoTot}</td>
+          <td class="py-2.5 pr-4">${l.pesoProm}</td>
+          <td class="py-2.5 pr-4">${l.base}</td>
+          <td class="py-2.5 pr-4">${l.incr}</td>
+          <td class="py-2.5 pr-4 capitalize">${l.tipo}</td>
+          <td class="py-2.5 pr-4 text-xs">${l.entrada}</td>
+          <td class="py-2.5 pr-4">${l.procedencia}</td>
+          <td class="py-2.5 pr-4">${l.proveedor}</td>
+          <td class="py-2.5 pr-4">${l.tel}</td>
+          <td class="py-2.5 pr-4 text-[#7D6519] font-semibold text-xs">${l.obs || '—'}</td>
+          <td class="py-2.5">
+            <div class="flex gap-2 justify-center">
+              <button data-edit="${i}" title="Editar"
+                class="w-8 h-8 rounded-full bg-[#063015] hover:bg-[#08491F] text-white grid place-items-center transition-colors">
+                <i class="fa-solid fa-pen text-xs"></i>
+              </button>
+              <button data-play="${i}" title="Enviar a la pista"
+                class="w-8 h-8 rounded-full bg-[#0B7F34] hover:bg-[#08491F] text-white grid place-items-center transition-colors">
+                <i class="fa-solid fa-play text-xs"></i>
+              </button>
+              <button data-hammer="${i}" title="Abrir en el martillo"
+                class="w-8 h-8 rounded-full bg-[#F4C430] hover:bg-[#CDA529] text-[#1A1A1A] grid place-items-center transition-colors">
+                <i class="fa-solid fa-hammer text-xs"></i>
+              </button>
+              <button data-del="${i}" title="Eliminar"
+                class="w-8 h-8 rounded-full bg-[#7D6519] hover:bg-[#1A1A1A] text-white grid place-items-center transition-colors">
+                <i class="fa-solid fa-trash text-xs"></i>
+              </button>
+            </div>
+          </td>
+        </tr>`;
+      }).join('');
+    }
+
+    /* ================= FILTRO Y PAGINACIÓN ================= */
+    $('inputFiltro').addEventListener('input', () => { pagina = 1; render(); });
+    $('perPage').addEventListener('change', e => { porPagina = +e.target.value; pagina = 1; render(); });
+    $('btnPrev').onclick = () => { if (pagina > 1) { pagina--; render(); } };
+    $('btnNext').onclick = () => { pagina++; render(); };
+
+    /* ================= ACCIONES FILA ================= */
+    $('tbodyLista').addEventListener('click', e => {
+      const edit = e.target.closest('[data-edit]');
+      const play = e.target.closest('[data-play]');
+      const ham = e.target.closest('[data-hammer]');
+      const del = e.target.closest('[data-del]');
+      if (edit) alert('Editar lote: ' + lotes[edit.dataset.edit].codigo);
+      if (play) {
+        const l = lotes[play.dataset.play];
+        if (confirm('¿Enviar el lote ' + l.codigo + ' a la pista?')) alert('Lote ' + l.codigo + ' enviado a la pista');
+      }
+      if (ham) location.href = '../martillo.html';
+      if (del) {
+        const l = lotes[del.dataset.del];
+        if (confirm('¿Eliminar el lote ' + l.codigo + '?')) {
+          lotes.splice(+del.dataset.del, 1);
+          render();
+        }
+      }
+    });
+
+    /* ================= ACCIONES GENERALES ================= */
+    $('btnCrear').onclick = () => alert('Crear nuevo lote');
+    $('btnEliminarLotes').onclick = () => alert('Seleccione los lotes a eliminar desde la tabla');
+    $('btnEliminarPujas').onclick = () => {
+      if (confirm('¿Eliminar todas las pujas registradas?')) alert('Pujas eliminadas correctamente');
+    };
+
+    /* ================= MENÚ Y SUBMENÚS ================= */
+    $('btnMenu').onclick = () => $('sidebar').classList.toggle('-translate-x-52');
+
+    /* ================= MENÚ DE USUARIO ================= */
+    $('btnUser').onclick = e => {
+      e.stopPropagation();
+      $('menuUser').classList.toggle('hidden');
+    };
+    document.addEventListener('click', e => {
+      if (!$('menuUser').contains(e.target)) $('menuUser').classList.add('hidden');
+    });
+
+    const toggleSub = (btn, sub, icon, down, up) => {
+      $(sub).classList.toggle('hidden');
+      $(icon).classList.toggle(down);
+      $(icon).classList.toggle(up);
+    };
+    $('btnUsuarios').onclick = () => toggleSub('btnUsuarios', 'subUsuarios', 'iconUsuarios', 'fa-chevron-down', 'fa-chevron-up');
+    $('btnLotes').onclick = () => toggleSub('btnLotes', 'subLotes', 'iconLotes', 'fa-chevron-down', 'fa-chevron-up');
+
+    /* ================= RELOJ ================= */
+    setInterval(() => {
+      $('relojTop').innerHTML = '<i class="fa-solid fa-clock mr-1 text-[#F4C430]"></i> ' +
+        new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }, 1000);
+
+    render();
+  </script>
+</body>
+
+</html>

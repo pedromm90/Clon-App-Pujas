@@ -1,0 +1,23 @@
+.input-line {
+  border: 0;
+  border-bottom: 1px solid #0A6229;
+  outline: none;
+  width: 100%;
+  padding: 6px 2px;
+  font-size: 14px;
+  background: transparent;
+}
+
+.input-line:focus {
+  border-color: #0B7F34;
+}
+
+.btn-gray {
+  background: #0A6229;
+  color: #fff;
+  transition: background-color 0.15s ease;
+}
+
+.btn-gray:hover {
+  background: #063015;
+}

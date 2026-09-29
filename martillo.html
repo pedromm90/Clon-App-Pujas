@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Martillo</title>
+
+  <!-- CDN de Tailwind CSS -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- CDN de Font Awesome para los Iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+
+  <!-- Estilos CSS -->
+  <link rel="stylesheet" href="css/estilos.css">
+
+  <style>
+    .input-line {
+      border: 0;
+      border-bottom: 1px solid #0A6229;
+      outline: none;
+      width: 100%;
+      padding: 6px 2px;
+      font-size: 14px;
+      background: transparent;
+    }
+
+    .input-line:focus {
+      border-color: #0B7F34;
+    }
+  </style>
+</head>
+
+<body class="bg-[#0B7F34]/5 text-[#1A1A1A]">
+
+  <!-- ===== TOPBAR ===== -->
+  <header class="h-12 bg-[#063015] text-white flex items-center justify-between px-4 fixed top-0 left-0 right-0 z-50">
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-2 font-bold italic text-lg">
+        <span>App</span><span class="text-[#F4C430]">Pujas</span>
+        <i class="fa-solid fa-cow text-[#F4C430]"></i>
+      </div>
+      <button id="btnMenu" class="hover:text-[#F4C430] transition-colors"><i class="fa-solid fa-bars"></i></button>
+    </div>
+    <div class="flex items-center gap-5 text-xs">
+      <span><i class="fa-solid fa-location-dot mr-1 text-[#F4C430]"></i> La Victoria, CO</span>
+      <span id="relojTop"><i class="fa-solid fa-clock mr-1 text-[#F4C430]"></i> 07:36</span>
+      <span><i class="fa-solid fa-temperature-half mr-1 text-[#F4C430]"></i> 18°C</span>
+      <!-- Menú de usuario -->
+      <div class="relative">
+        <button id="btnUser" type="button" title="Menú de usuario"
+          class="w-8 h-8 rounded-full bg-[#F4C430] text-[#1A1A1A] grid place-items-center overflow-hidden hover:ring-2 hover:ring-[#F4C430]/70 transition">
+          <i class="fa-solid fa-user"></i>
+        </button>
+        <div id="menuUser"
+          class="hidden absolute right-0 mt-2 w-44 bg-white text-[#1A1A1A] rounded-lg shadow-lg border border-[#0B7F34]/15 py-1 z-[60] text-sm">
+          <a href="login.html" class="flex items-center gap-3 px-4 py-2.5 hover:bg-[#0B7F34]/10 transition-colors">
+            <i class="fa-solid fa-right-from-bracket w-4 text-center text-[#0A6229]"></i> Salir
+          </a>
+          <a href="#" class="flex items-center gap-3 px-4 py-2.5 hover:bg-[#0B7F34]/10 transition-colors border-t border-[#0B7F34]/10">
+            <i class="fa-solid fa-key w-4 text-center text-[#0A6229]"></i> Cambiar Contraseña
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside id="sidebar"
+    class="w-52 fixed top-12 bottom-0 bg-white shadow flex flex-col text-sm transition-all -translate-x-52 lg:translate-x-0">
+    <!-- Perfil -->
+    <div class="relative h-28 bg-gradient-to-b from-[#063015] to-[#0B7F34] flex items-end p-3">
+      <div
+        class="absolute -bottom-5 left-3 w-12 h-12 rounded-full border-2 border-white bg-[#F4C430] text-[#1A1A1A] grid place-items-center text-xl">
+        <i class="fa-solid fa-user"></i>
+      </div>
+    </div>
+    <div class="pt-7 px-3 pb-2">
+      <p class="text-xs font-semibold">Licencia: Saganorte</p>
+      <select class="text-xs font-bold bg-transparent">
+        <option>Admin</option>
+        <option>Operador</option>
+      </select>
+    </div>
+    <nav class="flex-1 overflow-y-auto">
+      <a href="index.html"
+        class="flex items-center gap-2 px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><i
+          class="fa-solid fa-chart-column w-4 text-center"></i>
+        Panel</a>
+      <a href="martillo.html"
+        class="flex items-center gap-2 px-3 py-2.5 text-[#0B7F34] font-semibold border-l-4 border-[#0B7F34] bg-[#0B7F34]/10"><i
+          class="fa-solid fa-gavel w-4 text-center"></i>
+        Martillo</a>
+      <button type="button" id="btnUsuarios"
+        class="w-full flex items-center justify-between px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><span
+          class="flex gap-2 items-center"><i class="fa-solid fa-users w-4 text-center"></i> Usuarios</span><i
+          id="iconUsuarios" class="fa-solid fa-chevron-down text-xs transition-transform"></i></button>
+      <div id="subUsuarios" class="hidden bg-[#0B7F34]/5">
+        <a href="usuarios/lista.html"
+          class="flex items-center gap-2 pl-9 pr-3 py-2 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]">Listado</a>
+        <a href="usuarios/importar.html"
+          class="flex items-center gap-2 pl-9 pr-3 py-2 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]">Importar</a>
+      </div>
+      <button type="button" id="btnLotes"
+        class="w-full flex items-center justify-between px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><span
+          class="flex gap-2 items-center"><i class="fa-solid fa-clipboard-list w-4 text-center"></i> Lotes</span><i
+          id="iconLotes" class="fa-solid fa-chevron-down text-xs transition-transform"></i></button>
+      <div id="subLotes" class="hidden bg-[#0B7F34]/5">
+        <a href="lotes/lista.html"
+          class="flex items-center gap-2 pl-9 pr-3 py-2 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]">Listado</a>
+        <a href="lotes/importar.html"
+          class="flex items-center gap-2 pl-9 pr-3 py-2 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]">Importar</a>
+      </div>
+      <a href="reportes.html"
+        class="flex items-center gap-2 px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><i
+          class="fa-solid fa-chart-line w-4 text-center"></i>
+        Reportes</a>
+      <a href="#"
+        class="flex items-center gap-2 px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><i
+          class="fa-solid fa-bullhorn w-4 text-center"></i>
+        Publicidad</a>
+      <a href="#"
+        class="flex items-center gap-2 px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><i
+          class="fa-solid fa-gear w-4 text-center"></i>
+        Configuración</a>
+      <a href="#"
+        class="flex items-center justify-between px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><span
+          class="flex gap-2 items-center"><i class="fa-solid fa-key w-4 text-center"></i> Admin</span><i
+          class="fa-solid fa-chevron-down text-xs"></i></a>
+    </nav>
+    <div class="p-3 border-t border-[#0B7F34]/20">
+      <select class="text-xs w-full bg-[#0B7F34]/5 border border-[#0A6229]/25 rounded p-1.5">
+        <option>Licencia Saganorte</option>
+      </select>
+    </div>
+  </aside>
+
+  <!-- ===== CONTENIDO ===== -->
+  <main class="pt-12 lg:ml-52">
+    <!-- Breadcrumb -->
+    <div class="bg-white shadow-sm px-6 py-3 flex justify-between items-center">
+      <span class="text-[#0B7F34] font-semibold">Martillo</span>
+      <span class="text-xs text-[#1A1A1A]/60"><a href="index.html" class="text-[#0A6229] hover:text-[#063015]">Dashboard</a>
+        &nbsp;›&nbsp; Martillo</span>
+    </div>
+
+    <div class="p-4 grid grid-cols-1 xl:grid-cols-2 gap-4">
+
+      <!-- COLUMNA IZQUIERDA -->
+      <div class="space-y-4">
+
+        <!-- Información del lote actual -->
+        <section class="bg-white rounded shadow p-4">
+          <div class="flex items-center justify-between border-b-2 border-[#0B7F34] pb-2 mb-4">
+            <h2 class="font-bold">Información del lote actual</h2>
+            <span id="badgeEstado"
+              class="bg-[#7D6519] text-white text-xs font-bold px-3 py-1 rounded-full">DETENIDO</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-2 text-sm">
+            <!-- Columna izquierda -->
+            <div class="space-y-2">
+              <div class="flex justify-between"><span class="text-[#1A1A1A]/60">Lote actual:</span><span
+                  id="loteNombre" class="font-bold uppercase">PUBLICIDAD</span></div>
+              <div class="flex justify-between"><span class="text-[#1A1A1A]/60">Valor puja:</span><span
+                  id="valorPujaTxt" class="font-bold">COP 100</span></div>
+              <div class="flex justify-between"><span class="text-[#1A1A1A]/60">Valor animal:</span><span
+                  class="font-bold">COP 2,415,000</span></div>
+              <div class="flex justify-between"><span class="text-[#1A1A1A]/60">Valor actual:</span><span
+                  id="valorActualTxt" class="font-bold text-[#0B7F34]">COP 00</span></div>
+              <div class="flex justify-between"><span class="text-[#1A1A1A]/60">Vlr Total:</span><span
+                  class="font-bold">COP 2,415,000</span></div>
+              <div class="flex justify-between"><span class="text-[#1A1A1A]/60">Hora llegada:</span><span
+                  id="horaLlegada" class="font-bold">12:21 PM</span></div>
+              <div class="flex justify-between"><span class="text-[#1A1A1A]/60">Procedencia:</span><span
+                  class="font-bold">TULUÁ</span></div>
+            </div>
+
+            <!-- Columna derecha -->
+            <div class="space-y-2">
+              <div class="flex justify-between"><span class="text-[#1A1A1A]/60">Valor base:</span><span
+                  id="valorBaseTxt" class="font-bold">COP 00</span></div>
+              <div class="flex justify-between"><span class="text-[#1A1A1A]/60">Peso promedio:</span><span
+                  class="font-bold">350</span></div>
+              <div class="flex justify-between"><span class="text-[#1A1A1A]/60">Cantidad:</span><span
+                  class="font-bold">1</span></div>
+              <div class="flex justify-between"><span class="text-[#1A1A1A]/60">Categoría:</span><span
+                  id="categoriaTxt" class="font-bold uppercase">VI</span></div>
+              <div class="flex justify-between"><span class="text-[#1A1A1A]/60">Valor kilo:</span><span
+                  class="font-bold">COP 6,800</span></div>
+              <div class="flex justify-between"><span class="text-[#1A1A1A]/60">Peso total:</span><span
+                  class="font-bold">350</span></div>
+              <div class="flex justify-between"><span class="text-[#1A1A1A]/60">Proveedor:</span><span
+                  class="font-bold">—</span></div>
+            </div>
+          </div>
+
+          <!-- Observaciones -->
+          <div class="border-t border-[#0B7F34]/20 mt-4 pt-3 flex justify-between items-center text-sm">
+            <span class="text-[#1A1A1A]/60">Observaciones:</span>
+            <span class="font-bold text-[#7D6519]">CONDICIONADO</span>
+          </div>
+
+          <!-- Valor siguiente puja -->
+          <div class="border-t border-[#0B7F34]/20 mt-3 pt-3 flex justify-between items-center">
+            <span class="font-semibold">Valor de la siguiente puja:</span>
+            <span id="siguienteTxt" class="text-2xl font-extrabold text-[#063015]">COP 100</span>
+          </div>
+        </section>
+
+        <!-- Adjudicar -->
+        <section class="bg-white rounded shadow p-4">
+          <h2 class="font-bold border-b-2 border-[#0B7F34] pb-2 mb-4">Adjudicar lote</h2>
+          <div class="space-y-4">
+            <div><input id="inComprador" class="input-line" placeholder="Código / nombre del comprador *"></div>
+            <div>
+              <select id="inModalidad" class="input-line text-[#1A1A1A]/60">
+                <option value="">Modalidad de pago *</option>
+                <option>Contado</option>
+                <option>Crédito</option>
+                <option>Consignación</option>
+              </select>
+            </div>
+          </div>
+          <div class="flex flex-wrap justify-between gap-2 mt-6">
+            <button id="btnAdjudicar"
+              class="bg-[#0B7F34] hover:bg-[#08491F] text-white font-bold text-sm px-5 py-2 rounded transition-colors"><i
+                class="fa-solid fa-circle-check mr-1"></i> Adjudicar</button>
+            <button id="btnDesertar"
+              class="bg-[#7D6519] hover:bg-[#1A1A1A] text-white font-bold text-sm px-5 py-2 rounded transition-colors">Desertar
+              puja</button>
+            <button id="btnDevolver"
+              class="bg-[#063015] hover:bg-[#08491F] text-white font-bold text-sm px-5 py-2 rounded transition-colors">Devolver
+              a la pista</button>
+          </div>
+        </section>
+
+        <!-- Pujas rápidas -->
+        <section class="bg-white rounded shadow p-4">
+          <h2 class="font-bold border-b-2 border-[#0B7F34] pb-2 mb-4">Pujas rápidas (manuales)</h2>
+          <p class="text-xs text-[#1A1A1A]/60 mb-3">Registra pujas en sitio o telefónicas</p>
+          <div class="flex gap-3 items-end">
+            <div class="flex-1">
+              <input id="inNumPuja" type="number" class="input-line" placeholder="Número de raqueta">
+            </div>
+            <button id="btnPujaManual"
+              class="bg-[#F4C430] hover:bg-[#CDA529] text-[#1A1A1A] font-bold text-sm px-6 py-2 rounded transition-colors"><i
+                class="fa-solid fa-hammer mr-1"></i> Rematar</button>
+          </div>
+        </section>
+
+        <!-- Últimas 5 pujas -->
+        <section class="bg-white rounded shadow p-4">
+          <div class="flex justify-between items-center border-b-2 border-[#0B7F34] pb-2 mb-1">
+            <h2 class="font-bold">Últimas 5 pujas</h2>
+            <span class="text-xs text-[#1A1A1A]/50">Tiempo real</span>
+          </div>
+          <ul id="listaPujas" class="text-sm divide-y divide-[#0B7F34]/10 max-h-64 overflow-y-auto"></ul>
+          <p id="sinPujas" class="text-center text-[#1A1A1A]/40 italic py-6 text-sm">No hay pujas recientes</p>
+        </section>
+      </div>
+
+      <!-- COLUMNA DERECHA -->
+      <div class="space-y-4">
+
+        <!-- Video de la transmisión -->
+        <section class="bg-white rounded shadow p-4">
+          <h2 class="font-bold border-b-2 border-[#0B7F34] pb-2 mb-4">Video de la transmisión</h2>
+          <div class="relative aspect-video rounded overflow-hidden bg-[#063015] grid place-items-center">
+            <div class="text-center">
+              <i class="fa-solid fa-video text-4xl text-[#F4C430] mb-2"></i>
+              <p class="text-sm text-white/70">Transmisión en vivo</p>
+            </div>
+            <div
+              class="absolute bottom-0 inset-x-0 bg-[#1A1A1A]/70 text-white text-xs px-3 py-2 flex justify-between items-center">
+              <span id="videoCaption">Lote PUBLICIDAD – 1 VI de 350 kg</span>
+              <i class="fa-solid fa-expand hover:text-[#F4C430] cursor-pointer transition-colors"></i>
+            </div>
+          </div>
+        </section>
+
+        <!-- Usuarios conectados -->
+        <section class="bg-white rounded shadow p-4">
+          <div class="flex justify-between items-center text-sm border-b-2 border-[#0B7F34] pb-2 mb-3">
+            <h2 class="font-bold">Usuarios conectados</h2>
+            <div class="flex items-center gap-2 text-[#1A1A1A]/60">
+              <span>(refresco en <b id="refresco">60</b> segs)</span>
+              <button id="btnRefrescar" class="text-[#0A6229] hover:text-[#063015] transition-colors"
+                title="Refrescar"><i class="fa-solid fa-rotate"></i></button>
+            </div>
+          </div>
+          <div class="grid grid-cols-3 divide-x divide-[#0B7F34]/20 text-center">
+            <div>
+              <p class="text-xs text-[#1A1A1A]/60">Total</p>
+              <p id="uTotal" class="text-2xl font-bold">0</p>
+            </div>
+            <div>
+              <p class="text-xs text-[#1A1A1A]/60">Con raqueta</p>
+              <p id="uRaqueta" class="text-2xl font-bold">0</p>
+            </div>
+            <div>
+              <p class="text-xs text-[#1A1A1A]/60">Invitados</p>
+              <p id="uInvitados" class="text-2xl font-bold">0</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Historial de martillos -->
+        <section class="bg-white rounded shadow p-4">
+          <div class="flex justify-between items-center border-b-2 border-[#0B7F34] pb-2 mb-3">
+            <h2 class="font-bold">Historial de martillos</h2>
+            <button id="btnLimpiarHist"
+              class="bg-[#1A1A1A]/10 hover:bg-[#1A1A1A]/20 text-[#1A1A1A]/70 text-xs font-bold px-3 py-1.5 rounded transition-colors">Limpiar</button>
+          </div>
+          <ul id="listaHistorial" class="text-sm divide-y divide-[#0B7F34]/10 max-h-72 overflow-y-auto"></ul>
+          <p id="sinHistorial" class="text-center text-[#1A1A1A]/40 italic py-8 text-sm">No hay lotes adjudicados</p>
+        </section>
+
+        <!-- Resumen de subasta -->
+        <section class="bg-white rounded shadow p-4">
+          <h2 class="font-bold border-b-2 border-[#0B7F34] pb-2 mb-3">Resumen de la subasta</h2>
+          <div class="grid grid-cols-3 divide-x divide-[#0B7F34]/20 text-center">
+            <div>
+              <p class="text-xs text-[#1A1A1A]/60">Lotes vendidos</p>
+              <p id="rVendidos" class="text-2xl font-bold text-[#0B7F34]">0</p>
+            </div>
+            <div>
+              <p class="text-xs text-[#1A1A1A]/60">Desertados</p>
+              <p id="rDesertados" class="text-2xl font-bold text-[#7D6519]">0</p>
+            </div>
+            <div>
+              <p class="text-xs text-[#1A1A1A]/60">Total recaudado</p>
+              <p id="rTotal" class="text-2xl font-bold text-[#0B7F34]">COP 0</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Opciones generales -->
+        <section class="bg-white rounded shadow p-4">
+          <h2 class="font-bold border-b-2 border-[#0B7F34] pb-2 mb-4">Opciones Generales</h2>
+          <div class="flex flex-wrap gap-3">
+            <button id="btnFinalizar"
+              class="flex-1 min-w-[200px] bg-[#7D6519] hover:bg-[#1A1A1A] text-white font-bold py-2.5 rounded transition-colors">Finalizar
+              Subasta</button>
+            <button id="btnSiguiente"
+              class="flex-1 min-w-[160px] bg-[#063015] hover:bg-[#08491F] text-white font-bold py-2.5 rounded transition-colors">Pasar a
+              siguiente lote</button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    /* ================= ESTADO (comparte sesión con el Panel vía localStorage) ================= */
+    const SESION = JSON.parse(localStorage.getItem('pujas_sesion') || 'null');
+    const estado = {
+      corriendo: SESION?.corriendo ?? false,
+      valorActual: SESION?.valorActual ?? 0,
+      valorPuja: SESION?.valorPuja ?? 100,
+      valorBase: SESION?.valorBase ?? 0,
+      lote: SESION?.lote ?? 'PUBLICIDAD',
+      categoria: SESION?.categoria ?? 'VI',
+      pujas: [],
+      historial: [],
+      resumen: { vendidos: 0, desertados: 0, total: 0 },
+      refresco: 60
+    };
+
+    const $ = id => document.getElementById(id);
+    const fmt = n => 'COP ' + String(n).padStart(2, '0');
+    const ahora = () => new Date().toLocaleDateString('es-CO') + ' ' +
+      new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    function guardar() {
+      localStorage.setItem('pujas_sesion', JSON.stringify({
+        corriendo: estado.corriendo, valorActual: estado.valorActual, valorPuja: estado.valorPuja,
+        valorBase: estado.valorBase, lote: estado.lote, categoria: estado.categoria
+      }));
+    }
+
+    function render() {
+      $('loteNombre').textContent = estado.lote;
+      $('categoriaTxt').textContent = estado.categoria;
+      $('valorBaseTxt').textContent = fmt(estado.valorBase);
+      $('valorPujaTxt').textContent = fmt(estado.valorPuja);
+      $('valorActualTxt').textContent = fmt(estado.valorActual);
+      $('siguienteTxt').textContent = fmt(estado.valorActual + estado.valorPuja);
+      $('videoCaption').textContent = `Lote ${estado.lote} – 1 ${estado.categoria} de 350 kg`;
+
+      $('badgeEstado').textContent = estado.corriendo ? 'EN VIVO' : 'DETENIDO';
+      $('badgeEstado').className = 'text-white text-xs font-bold px-3 py-1 rounded-full ' + (estado.corriendo ? 'bg-[#0B7F34]' : 'bg-[#7D6519]');
+
+      /* Últimas 5 pujas */
+      $('sinPujas').style.display = estado.pujas.length ? 'none' : 'block';
+      $('listaPujas').innerHTML = estado.pujas.map((p, i) => `
+        <li class="py-2.5 px-2 ${i === 0 ? 'bg-[#0B7F34]/10 rounded' : ''}">
+          <div class="flex justify-between items-start gap-2">
+            <div>
+              <p class="font-semibold">Raqueta # ${p.raqueta}</p>
+              <p class="text-xs text-[#1A1A1A]/60">Hizo una puja por: <b class="text-[#0B7F34]">${fmt(p.valor)}</b></p>
+            </div>
+            <div class="text-right shrink-0">
+              <span class="bg-[#F4C430] text-[#1A1A1A] text-[10px] font-bold px-2 py-0.5 rounded">USUARIO</span>
+              <p class="text-[10px] text-[#1A1A1A]/50 mt-1">${p.fecha}</p>
+            </div>
+          </div>
+        </li>`).join('');
+
+      /* Historial */
+      $('sinHistorial').style.display = estado.historial.length ? 'none' : 'block';
+      $('listaHistorial').innerHTML = estado.historial.map(h =>
+        `<li class="py-2 flex justify-between items-center gap-2"><span class="font-semibold uppercase">${h.lote}</span><span>${h.comprador}</span><span class="font-bold text-[#0B7F34]">${fmt(h.valor)}</span><span class="text-[10px] px-2 py-0.5 rounded-full font-bold ${h.estado === 'Vendido' ? 'bg-[#0B7F34]/10 text-[#0B7F34]' : 'bg-[#7D6519]/10 text-[#7D6519]'}">${h.estado}</span></li>`
+      ).join('');
+
+      $('rVendidos').textContent = estado.resumen.vendidos;
+      $('rDesertados').textContent = estado.resumen.desertados;
+      $('rTotal').textContent = fmt(estado.resumen.total);
+      guardar();
+    }
+
+    /* ================= MENÚ ================= */
+    $('btnMenu').onclick = () => $('sidebar').classList.toggle('-translate-x-52');
+
+    /* ================= MENÚ DE USUARIO ================= */
+    $('btnUser').onclick = e => {
+      e.stopPropagation();
+      $('menuUser').classList.toggle('hidden');
+    };
+    document.addEventListener('click', e => {
+      if (!$('menuUser').contains(e.target)) $('menuUser').classList.add('hidden');
+    });
+
+    /* ================= SUBMENÚ USUARIOS ================= */
+    $('btnUsuarios').onclick = () => {
+      $('subUsuarios').classList.toggle('hidden');
+      $('iconUsuarios').classList.toggle('fa-chevron-down');
+      $('iconUsuarios').classList.toggle('fa-chevron-up');
+    };
+
+    $('btnLotes').onclick = () => {
+      $('subLotes').classList.toggle('hidden');
+      $('iconLotes').classList.toggle('fa-chevron-down');
+      $('iconLotes').classList.toggle('fa-chevron-up');
+    };
+
+    /* ================= PUJA MANUAL ================= */
+    $('btnPujaManual').onclick = () => {
+      const num = $('inNumPuja').value.trim();
+      if (!num) return alert('Ingrese el número de raqueta');
+      estado.valorActual += estado.valorPuja;
+      estado.pujas.unshift({ raqueta: num, valor: estado.valorActual, fecha: ahora() });
+      estado.pujas = estado.pujas.slice(0, 5);
+      $('inNumPuja').value = '';
+      render();
+      alert(`Puja registrada — Raqueta ${num} · ${fmt(estado.valorActual)}`);
+    };
+
+    /* ================= ADJUDICAR ================= */
+    $('btnAdjudicar').onclick = () => {
+      const c = $('inComprador').value.trim(), m = $('inModalidad').value;
+      if (!c || !m) return alert('Complete los campos obligatorios (*)');
+      if (estado.valorActual === 0) return alert('No hay pujas registradas para este lote');
+      estado.historial.unshift({ lote: estado.lote, comprador: c + ` (${m})`, valor: estado.valorActual, estado: 'Vendido' });
+      estado.resumen.vendidos++; estado.resumen.total += estado.valorActual;
+      $('inComprador').value = ''; $('inModalidad').value = '';
+      estado.valorActual = estado.valorBase;
+      render();
+      alert('Lote adjudicado correctamente');
+    };
+
+    $('btnDesertar').onclick = () => {
+      if (estado.valorActual === 0) return alert('No hay puja activa');
+      if (!confirm('¿Desertar la puja actual?')) return;
+      estado.historial.unshift({ lote: estado.lote, comprador: '—', valor: estado.valorActual, estado: 'Desertado' });
+      estado.resumen.desertados++;
+      estado.valorActual = estado.valorBase;
+      render();
+    };
+
+    $('btnDevolver').onclick = () => {
+      if (!confirm('¿Devolver el lote a la pista?')) return;
+      estado.valorActual = estado.valorBase;
+      render();
+    };
+
+    /* ================= OPCIONES ================= */
+    $('btnFinalizar').onclick = () => {
+      if (confirm('¿Seguro que desea finalizar la subasta?')) { estado.corriendo = false; render(); }
+    };
+    $('btnSiguiente').onclick = () => {
+      estado.corriendo = false; estado.valorActual = estado.valorBase;
+      render(); alert('Listo para cargar el siguiente lote desde el Panel');
+    };
+    $('btnLimpiarHist').onclick = () => { estado.historial = []; render(); };
+
+    /* ================= RELOJ Y REFRESCO ================= */
+    $('horaLlegada').textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+    setInterval(() => {
+      $('relojTop').innerHTML = '<i class="fa-solid fa-clock mr-1 text-[#F4C430]"></i> ' +
+        new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      estado.refresco = estado.refresco > 0 ? estado.refresco - 1 : 60;
+      $('refresco').textContent = estado.refresco;
+    }, 1000);
+
+    /* ================= SIMULAR CONEXIONES ================= */
+    setInterval(() => {
+      const t = Math.floor(Math.random() * 30), r = Math.floor(t * 0.6), i = t - r;
+      $('uTotal').textContent = t; $('uRaqueta').textContent = r; $('uInvitados').textContent = i;
+    }, 15000);
+
+    render();
+  </script>
+</body>
+
+</html>

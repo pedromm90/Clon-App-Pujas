@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lotes - Importar</title>
+
+  <!-- CDN de Tailwind CSS -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- CDN de Font Awesome para los Iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+
+  <!-- Estilos CSS -->
+  <link rel="stylesheet" href="../css/estilos.css">
+
+  <!-- Dashboard CSS -->
+  <link rel="stylesheet" href="../css/dashboard.css">
+</head>
+
+<body class="bg-[#0B7F34]/5 text-[#1A1A1A]">
+
+  <!-- ===== TOPBAR ===== -->
+  <header class="h-12 bg-[#063015] text-white flex items-center justify-between px-4 fixed top-0 left-0 right-0 z-50">
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-2 font-bold italic text-lg">
+        <span>App</span><span class="text-[#F4C430]">Pujas</span>
+        <i class="fa-solid fa-cow text-[#F4C430]"></i>
+      </div>
+      <button id="btnMenu" class="hover:text-[#F4C430] transition-colors"><i class="fa-solid fa-bars"></i></button>
+    </div>
+    <div class="flex items-center gap-5 text-xs">
+      <span><i class="fa-solid fa-location-dot mr-1 text-[#F4C430]"></i> La Victoria, CO</span>
+      <span id="relojTop"><i class="fa-solid fa-clock mr-1 text-[#F4C430]"></i> 07:36</span>
+      <span><i class="fa-solid fa-temperature-half mr-1 text-[#F4C430]"></i> 18°C</span>
+      <!-- Menú de usuario -->
+      <div class="relative">
+        <button id="btnUser" type="button" title="Menú de usuario"
+          class="w-8 h-8 rounded-full bg-[#F4C430] text-[#1A1A1A] grid place-items-center overflow-hidden hover:ring-2 hover:ring-[#F4C430]/70 transition">
+          <i class="fa-solid fa-user"></i>
+        </button>
+        <div id="menuUser"
+          class="hidden absolute right-0 mt-2 w-44 bg-white text-[#1A1A1A] rounded-lg shadow-lg border border-[#0B7F34]/15 py-1 z-[60] text-sm">
+          <a href="../login.html" class="flex items-center gap-3 px-4 py-2.5 hover:bg-[#0B7F34]/10 transition-colors">
+            <i class="fa-solid fa-right-from-bracket w-4 text-center text-[#0A6229]"></i> Salir
+          </a>
+          <a href="#" class="flex items-center gap-3 px-4 py-2.5 hover:bg-[#0B7F34]/10 transition-colors border-t border-[#0B7F34]/10">
+            <i class="fa-solid fa-key w-4 text-center text-[#0A6229]"></i> Cambiar Contraseña
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside id="sidebar"
+    class="w-52 fixed top-12 bottom-0 bg-white shadow flex flex-col text-sm transition-all -translate-x-52 lg:translate-x-0 z-40">
+    <!-- Perfil -->
+    <div class="relative h-28 bg-gradient-to-b from-[#063015] to-[#0B7F34] flex items-end p-3">
+      <div
+        class="absolute -bottom-5 left-3 w-12 h-12 rounded-full border-2 border-white bg-[#F4C430] text-[#1A1A1A] grid place-items-center text-xl">
+        <i class="fa-solid fa-user"></i>
+      </div>
+    </div>
+    <div class="pt-7 px-3 pb-2">
+      <p class="text-xs font-semibold">Licencia: Saganorte</p>
+      <select class="text-xs font-bold bg-transparent">
+        <option>Admin</option>
+        <option>Operador</option>
+      </select>
+    </div>
+    <nav class="flex-1 overflow-y-auto">
+      <a href="../index.html"
+        class="flex items-center gap-2 px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><i
+          class="fa-solid fa-chart-column w-4 text-center"></i>
+        Panel</a>
+      <a href="../martillo.html"
+        class="flex items-center gap-2 px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><i
+          class="fa-solid fa-gavel w-4 text-center"></i>
+        Martillo</a>
+
+      <!-- Usuarios -->
+      <button type="button" id="btnUsuarios"
+        class="w-full flex items-center justify-between px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><span
+          class="flex gap-2 items-center"><i class="fa-solid fa-users w-4 text-center"></i> Usuarios</span><i
+          id="iconUsuarios" class="fa-solid fa-chevron-down text-xs transition-transform"></i></button>
+      <div id="subUsuarios" class="hidden bg-[#0B7F34]/5">
+        <a href="../usuarios/lista.html"
+          class="flex items-center gap-2 pl-9 pr-3 py-2 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]">Listado</a>
+        <a href="../usuarios/importar.html"
+          class="flex items-center gap-2 pl-9 pr-3 py-2 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]">Importar</a>
+      </div>
+
+      <!-- Lotes (activo) -->
+      <button type="button" id="btnLotes"
+        class="w-full flex items-center justify-between px-3 py-2.5 text-[#0B7F34] font-semibold border-l-4 border-[#0B7F34] bg-[#0B7F34]/10"><span
+          class="flex gap-2 items-center"><i class="fa-solid fa-clipboard-list w-4 text-center"></i> Lotes</span><i
+          id="iconLotes" class="fa-solid fa-chevron-up text-xs transition-transform"></i></button>
+      <div id="subLotes" class="bg-[#0B7F34]/5">
+        <a href="lista.html"
+          class="flex items-center gap-2 pl-9 pr-3 py-2 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]">Listado</a>
+        <a href="importar.html"
+          class="flex items-center gap-2 pl-9 pr-3 py-2 text-[#0B7F34] font-semibold bg-[#0B7F34]/10">Importar</a>
+      </div>
+
+      <a href="../reportes.html"
+        class="flex items-center gap-2 px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><i
+          class="fa-solid fa-chart-line w-4 text-center"></i>
+        Reportes</a>
+      <a href="#"
+        class="flex items-center gap-2 px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><i
+          class="fa-solid fa-bullhorn w-4 text-center"></i>
+        Publicidad</a>
+      <a href="#"
+        class="flex items-center gap-2 px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><i
+          class="fa-solid fa-gear w-4 text-center"></i>
+        Configuración</a>
+      <a href="#"
+        class="flex items-center justify-between px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><span
+          class="flex gap-2 items-center"><i class="fa-solid fa-key w-4 text-center"></i> Admin</span><i
+          class="fa-solid fa-chevron-down text-xs"></i></a>
+    </nav>
+    <div class="p-3 border-t border-[#0B7F34]/20">
+      <select class="text-xs w-full bg-[#0B7F34]/5 border border-[#0A6229]/25 rounded p-1.5">
+        <option>Licencia Saganorte</option>
+      </select>
+    </div>
+  </aside>
+
+  <!-- ===== CONTENIDO ===== -->
+  <main class="pt-12 lg:ml-52">
+    <!-- Breadcrumb -->
+    <div class="bg-white shadow-sm px-6 py-3 flex justify-between items-center">
+      <span class="text-[#0B7F34] font-semibold">Importar Lotes</span>
+      <span class="text-xs text-[#1A1A1A]/60"><a href="../index.html"
+          class="text-[#0A6229] hover:text-[#063015]">Dashboard</a> &nbsp;›&nbsp; Importar Lotes</span>
+    </div>
+
+    <div class="p-4 space-y-4">
+
+      <!-- ===== CARGA DE ARCHIVO ===== -->
+      <section class="bg-white rounded shadow p-4">
+        <div class="flex flex-col lg:flex-row lg:items-center gap-4">
+          <div
+            class="flex-1 flex items-center gap-3 border border-[#0A6229]/25 bg-[#0B7F34]/5 rounded px-3 py-2.5 text-sm">
+            <i class="fa-solid fa-file-import text-[#0A6229]"></i>
+            <label for="fileInput"
+              class="shrink-0 border border-[#0A6229]/40 bg-white px-3 py-1.5 rounded text-xs font-semibold cursor-pointer hover:bg-[#0B7F34]/10 transition-colors">Seleccionar
+              archivo</label>
+            <input type="file" id="fileInput" class="hidden" accept=".csv,.txt,.xlsx,.xls">
+            <span id="fileName" class="text-[#1A1A1A]/60">Ningún archivo seleccionado</span>
+          </div>
+          <button id="btnCrearLotes" disabled
+            class="bg-[#1A1A1A]/15 text-[#1A1A1A]/40 font-bold text-sm px-5 py-2.5 rounded cursor-not-allowed transition-colors">Crear
+            Lotes</button>
+        </div>
+
+        <label class="flex items-start gap-2 mt-3 text-sm text-[#1A1A1A]/70 cursor-pointer select-none">
+          <input type="checkbox" id="chkEliminar" class="w-4 h-4 mt-0.5 accent-[#0B7F34]">
+          <span>Eliminar los lotes existentes antes de ejecutar esta operación</span>
+        </label>
+
+        <p class="text-xs text-[#1A1A1A]/50 mt-2">Formatos admitidos: .csv, .txt, .xlsx — columnas: código, sexo,
+          cantidad, peso total, base, incremento, tipo, entrada, procedencia, proveedor, teléfono, observaciones</p>
+      </section>
+
+      <!-- ===== PREVISUALIZACIÓN ===== -->
+      <section class="bg-white rounded shadow p-4">
+        <div class="flex justify-between items-center border-b-2 border-[#0B7F34] pb-2 mb-3">
+          <h2 class="font-bold">Previsualización de importación</h2>
+          <span id="contador" class="text-xs text-[#1A1A1A]/60">Sin registros</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border-collapse min-w-[1100px]">
+            <thead>
+              <tr class="text-left text-xs text-[#1A1A1A]/60 border-b border-[#0B7F34]/20">
+                <th class="py-2 pr-4 font-semibold">Video</th>
+                <th class="py-2 pr-4 font-semibold">Código</th>
+                <th class="py-2 pr-4 font-semibold">Sexo</th>
+                <th class="py-2 pr-4 font-semibold">Cont</th>
+                <th class="py-2 pr-4 font-semibold">Peso Tot</th>
+                <th class="py-2 pr-4 font-semibold">Base</th>
+                <th class="py-2 pr-4 font-semibold">Incr</th>
+                <th class="py-2 pr-4 font-semibold">Tipo</th>
+                <th class="py-2 pr-4 font-semibold">Entrada</th>
+                <th class="py-2 pr-4 font-semibold">Procedencia</th>
+                <th class="py-2 pr-4 font-semibold">Proveedor</th>
+                <th class="py-2 pr-4 font-semibold">Tel.</th>
+                <th class="py-2 font-semibold">Observaciones</th>
+              </tr>
+            </thead>
+            <tbody id="tbodyPreview" class="divide-y divide-[#0B7F34]/10"></tbody>
+          </table>
+        </div>
+
+        <p id="sinRegistros" class="text-center text-[#1A1A1A]/40 italic py-8 text-sm">Seleccione un archivo para
+          previsualizar los registros</p>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const $ = id => document.getElementById(id);
+
+    const MUESTRA = [
+      { codigo: '101', sexo: 'HV', cant: 1, pesoTot: 320, base: 7200, incr: 100, tipo: 'Subasta', entrada: '29/09/2026 08:10 AM', procedencia: 'ZARZAL', proveedor: '—', tel: '—', obs: '' },
+      { codigo: '102', sexo: 'VI', cant: 1, pesoTot: 410, base: 8500, incr: 100, tipo: 'Subasta', entrada: '29/09/2026 08:25 AM', procedencia: 'SEVILLA', proveedor: '—', tel: '—', obs: 'CONDICIONADO' },
+      { codigo: '103', sexo: 'TR', cant: 2, pesoTot: 760, base: 9100, incr: 200, tipo: 'Subasta', entrada: '29/09/2026 08:40 AM', procedencia: 'ARMENIA', proveedor: '—', tel: '—', obs: '' }
+    ];
+
+    let registros = [];
+
+    function render() {
+      $('contador').textContent = registros.length
+        ? registros.length + (registros.length === 1 ? ' lote' : ' lotes')
+        : 'Sin registros';
+      $('sinRegistros').classList.toggle('hidden', registros.length > 0);
+      $('tbodyPreview').innerHTML = registros.map(r => `
+        <tr class="hover:bg-[#0B7F34]/5 transition-colors">
+          <td class="py-2.5 pr-4">
+            <span class="w-7 h-7 rounded-full bg-[#063015] text-white grid place-items-center" title="Video asociado">
+              <i class="fa-solid fa-video text-[11px]"></i>
+            </span>
+          </td>
+          <td class="py-2.5 pr-4 font-semibold uppercase">${r.codigo}</td>
+          <td class="py-2.5 pr-4">${r.sexo}</td>
+          <td class="py-2.5 pr-4">${r.cant}</td>
+          <td class="py-2.5 pr-4">${r.pesoTot}</td>
+          <td class="py-2.5 pr-4">${r.base}</td>
+          <td class="py-2.5 pr-4">${r.incr}</td>
+          <td class="py-2.5 pr-4 capitalize">${r.tipo}</td>
+          <td class="py-2.5 pr-4 text-xs">${r.entrada}</td>
+          <td class="py-2.5 pr-4">${r.procedencia}</td>
+          <td class="py-2.5 pr-4">${r.proveedor}</td>
+          <td class="py-2.5 pr-4">${r.tel}</td>
+          <td class="py-2.5 text-[#7D6519] font-semibold text-xs">${r.obs || '—'}</td>
+        </tr>`).join('');
+    }
+
+    function parseCSV(text) {
+      const lineas = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+      if (!lineas.length) return [];
+      const sep = (lineas[0].match(/;/g) || []).length > (lineas[0].match(/,/g) || []).length ? ';' : ',';
+      const filas = lineas[0].toLowerCase().includes('código') || lineas[0].toLowerCase().includes('codigo')
+        ? lineas.slice(1) : lineas;
+      return filas.map(l => {
+        const c = l.split(sep).map(v => v.trim().replace(/^"|"$/g, ''));
+        return {
+          codigo: c[0] || '—', sexo: c[1] || '—', cant: c[2] || 1, pesoTot: c[3] || 0,
+          base: c[4] || 0, incr: c[5] || 100, tipo: c[6] || 'Subasta', entrada: c[7] || '—',
+          procedencia: c[8] || '—', proveedor: c[9] || '—', tel: c[10] || '—', obs: c[11] || ''
+        };
+      });
+    }
+
+    /* ================= ARCHIVO ================= */
+    $('fileInput').addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      $('fileName').textContent = file.name;
+      $('fileName').classList.replace('text-[#1A1A1A]/60', 'text-[#1A1A1A]');
+      const btn = $('btnCrearLotes');
+      btn.disabled = false;
+      btn.className = 'bg-[#0B7F34] hover:bg-[#08491F] text-white font-bold text-sm px-5 py-2.5 rounded transition-colors';
+
+      if (/\.(csv|txt)$/i.test(file.name)) {
+        const lector = new FileReader();
+        lector.onload = () => { registros = parseCSV(lector.result); render(); };
+        lector.readAsText(file);
+      } else {
+        registros = MUESTRA;
+        render();
+      }
+    });
+
+    /* ================= CREAR LOTES ================= */
+    $('btnCrearLotes').onclick = () => {
+      if (!registros.length) return alert('No hay registros para importar');
+      const eliminar = $('chkEliminar').checked;
+      const msg = eliminar
+        ? 'Se eliminarán todos los lotes existentes y se crearán ' + registros.length + ' nuevos. ¿Continuar?'
+        : '¿Crear ' + registros.length + ' lotes?';
+      if (!confirm(msg)) return;
+      alert(registros.length + ' lotes creados correctamente');
+    };
+
+    /* ================= MENÚ Y SUBMENÚS ================= */
+    $('btnMenu').onclick = () => $('sidebar').classList.toggle('-translate-x-52');
+
+    /* ================= MENÚ DE USUARIO ================= */
+    $('btnUser').onclick = e => {
+      e.stopPropagation();
+      $('menuUser').classList.toggle('hidden');
+    };
+    document.addEventListener('click', e => {
+      if (!$('menuUser').contains(e.target)) $('menuUser').classList.add('hidden');
+    });
+
+    $('btnUsuarios').onclick = () => {
+      $('subUsuarios').classList.toggle('hidden');
+      $('iconUsuarios').classList.toggle('fa-chevron-down');
+      $('iconUsuarios').classList.toggle('fa-chevron-up');
+    };
+
+    $('btnLotes').onclick = () => {
+      $('subLotes').classList.toggle('hidden');
+      $('iconLotes').classList.toggle('fa-chevron-down');
+      $('iconLotes').classList.toggle('fa-chevron-up');
+    };
+
+    /* ================= RELOJ ================= */
+    setInterval(() => {
+      $('relojTop').innerHTML = '<i class="fa-solid fa-clock mr-1 text-[#F4C430]"></i> ' +
+        new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }, 1000);
+
+    render();
+  </script>
+</body>
+
+</html>

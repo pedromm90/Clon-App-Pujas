@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reportes - Pujas</title>
+
+  <!-- CDN de Tailwind CSS -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- CDN de Font Awesome para los Iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+
+  <!-- Estilos CSS -->
+  <link rel="stylesheet" href="css/estilos.css">
+
+  <!-- Dashboard CSS -->
+  <link rel="stylesheet" href="css/dashboard.css">
+</head>
+
+<body class="bg-[#0B7F34]/5 text-[#1A1A1A]">
+
+  <!-- ===== TOPBAR ===== -->
+  <header class="h-12 bg-[#063015] text-white flex items-center justify-between px-4 fixed top-0 left-0 right-0 z-50">
+    <div class="flex items-center gap-4">
+      <div class="flex items-center gap-2 font-bold italic text-lg">
+        <span>App</span><span class="text-[#F4C430]">Pujas</span>
+        <i class="fa-solid fa-cow text-[#F4C430]"></i>
+      </div>
+      <button id="btnMenu" class="hover:text-[#F4C430] transition-colors"><i class="fa-solid fa-bars"></i></button>
+    </div>
+    <div class="flex items-center gap-5 text-xs">
+      <span><i class="fa-solid fa-location-dot mr-1 text-[#F4C430]"></i> La Victoria, CO</span>
+      <span id="relojTop"><i class="fa-solid fa-clock mr-1 text-[#F4C430]"></i> 07:36</span>
+      <span><i class="fa-solid fa-temperature-half mr-1 text-[#F4C430]"></i> 18°C</span>
+      <!-- Menú de usuario -->
+      <div class="relative">
+        <button id="btnUser" type="button" title="Menú de usuario"
+          class="w-8 h-8 rounded-full bg-[#F4C430] text-[#1A1A1A] grid place-items-center overflow-hidden hover:ring-2 hover:ring-[#F4C430]/70 transition">
+          <i class="fa-solid fa-user"></i>
+        </button>
+        <div id="menuUser"
+          class="hidden absolute right-0 mt-2 w-44 bg-white text-[#1A1A1A] rounded-lg shadow-lg border border-[#0B7F34]/15 py-1 z-[60] text-sm">
+          <a href="login.html" class="flex items-center gap-3 px-4 py-2.5 hover:bg-[#0B7F34]/10 transition-colors">
+            <i class="fa-solid fa-right-from-bracket w-4 text-center text-[#0A6229]"></i> Salir
+          </a>
+          <a href="#" class="flex items-center gap-3 px-4 py-2.5 hover:bg-[#0B7F34]/10 transition-colors border-t border-[#0B7F34]/10">
+            <i class="fa-solid fa-key w-4 text-center text-[#0A6229]"></i> Cambiar Contraseña
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== SIDEBAR ===== -->
+  <aside id="sidebar"
+    class="w-52 fixed top-12 bottom-0 bg-white shadow flex flex-col text-sm transition-all -translate-x-52 lg:translate-x-0 z-40">
+    <!-- Perfil -->
+    <div class="relative h-28 bg-gradient-to-b from-[#063015] to-[#0B7F34] flex items-end p-3">
+      <div
+        class="absolute -bottom-5 left-3 w-12 h-12 rounded-full border-2 border-white bg-[#F4C430] text-[#1A1A1A] grid place-items-center text-xl">
+        <i class="fa-solid fa-user"></i>
+      </div>
+    </div>
+    <div class="pt-7 px-3 pb-2">
+      <p class="text-xs font-semibold">Licencia: Saganorte</p>
+      <select class="text-xs font-bold bg-transparent">
+        <option>Admin</option>
+        <option>Operador</option>
+      </select>
+    </div>
+    <nav class="flex-1 overflow-y-auto">
+      <a href="index.html"
+        class="flex items-center gap-2 px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><i
+          class="fa-solid fa-chart-column w-4 text-center"></i>
+        Panel</a>
+      <a href="martillo.html"
+        class="flex items-center gap-2 px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><i
+          class="fa-solid fa-gavel w-4 text-center"></i>
+        Martillo</a>
+
+      <!-- Usuarios -->
+      <button type="button" id="btnUsuarios"
+        class="w-full flex items-center justify-between px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><span
+          class="flex gap-2 items-center"><i class="fa-solid fa-users w-4 text-center"></i> Usuarios</span><i
+          id="iconUsuarios" class="fa-solid fa-chevron-down text-xs transition-transform"></i></button>
+      <div id="subUsuarios" class="hidden bg-[#0B7F34]/5">
+        <a href="usuarios/lista.html"
+          class="flex items-center gap-2 pl-9 pr-3 py-2 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]">Listado</a>
+        <a href="usuarios/importar.html"
+          class="flex items-center gap-2 pl-9 pr-3 py-2 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]">Importar</a>
+      </div>
+
+      <!-- Lotes -->
+      <button type="button" id="btnLotes"
+        class="w-full flex items-center justify-between px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><span
+          class="flex gap-2 items-center"><i class="fa-solid fa-clipboard-list w-4 text-center"></i> Lotes</span><i
+          id="iconLotes" class="fa-solid fa-chevron-down text-xs transition-transform"></i></button>
+      <div id="subLotes" class="hidden bg-[#0B7F34]/5">
+        <a href="lotes/lista.html"
+          class="flex items-center gap-2 pl-9 pr-3 py-2 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]">Listado</a>
+        <a href="lotes/importar.html"
+          class="flex items-center gap-2 pl-9 pr-3 py-2 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]">Importar</a>
+      </div>
+
+      <!-- Reportes (activo) -->
+      <a href="reportes.html"
+        class="flex items-center gap-2 px-3 py-2.5 text-[#0B7F34] font-semibold border-l-4 border-[#0B7F34] bg-[#0B7F34]/10"><i
+          class="fa-solid fa-chart-line w-4 text-center"></i>
+        Reportes</a>
+
+      <a href="#"
+        class="flex items-center gap-2 px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><i
+          class="fa-solid fa-bullhorn w-4 text-center"></i>
+        Publicidad</a>
+      <a href="#"
+        class="flex items-center gap-2 px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><i
+          class="fa-solid fa-gear w-4 text-center"></i>
+        Configuración</a>
+      <a href="#"
+        class="flex items-center justify-between px-3 py-2.5 text-[#1A1A1A]/60 hover:bg-[#0B7F34]/10 hover:text-[#063015]"><span
+          class="flex gap-2 items-center"><i class="fa-solid fa-key w-4 text-center"></i> Admin</span><i
+          class="fa-solid fa-chevron-down text-xs"></i></a>
+    </nav>
+    <div class="p-3 border-t border-[#0B7F34]/20">
+      <select class="text-xs w-full bg-[#0B7F34]/5 border border-[#0A6229]/25 rounded p-1.5">
+        <option>Licencia Saganorte</option>
+      </select>
+    </div>
+  </aside>
+
+  <!-- ===== CONTENIDO ===== -->
+  <main class="pt-12 lg:ml-52">
+    <!-- Breadcrumb -->
+    <div class="bg-white shadow-sm px-6 py-3 flex justify-between items-center">
+      <span class="text-[#0B7F34] font-semibold">Reportes</span>
+      <span class="text-xs text-[#1A1A1A]/60"><a href="index.html"
+          class="text-[#0A6229] hover:text-[#063015]">Dashboard</a> &nbsp;›&nbsp; Reportes</span>
+    </div>
+
+    <div class="p-4 space-y-4">
+
+      <!-- ===== SELECCIÓN DE TIPO ===== -->
+      <section class="bg-white rounded shadow p-4">
+        <div class="flex flex-col xl:flex-row xl:items-end gap-4">
+          <div class="flex-1">
+            <label for="tipoReporte" class="block text-xs font-semibold text-[#7D6519]">Seleccione un tipo:</label>
+            <select id="tipoReporte" class="input-line text-lg font-semibold text-[#1A1A1A] appearance-auto">
+              <option value="pujas">Reporte de pujas</option>
+              <option value="adjudicaciones">Reporte de adjudicaciones</option>
+            </select>
+            <p id="tipoDesc" class="text-xs text-[#1A1A1A]/60 mt-1">Informe de las pujas realizadas en los lotes
+              indicando la raqueta y si fue adjudicado</p>
+          </div>
+          <button id="btnGenerar"
+            class="bg-[#0B7F34] hover:bg-[#08491F] text-white font-bold text-sm px-6 py-2.5 rounded transition-colors">Generar</button>
+        </div>
+      </section>
+
+      <!-- ===== REPORTE ===== -->
+      <section class="bg-white rounded shadow p-4">
+        <div class="flex flex-col xl:flex-row xl:items-end gap-4 mb-3">
+          <div class="flex-1">
+            <label for="inputFiltro" class="text-xs font-semibold text-[#1A1A1A]/60">Filtro</label>
+            <input id="inputFiltro" type="search" class="input-line"
+              placeholder="Buscar por lote, cliente, raqueta, categoría o fecha">
+          </div>
+          <button id="btnExportar"
+            class="bg-[#063015] hover:bg-[#08491F] text-white text-xs font-bold px-5 py-2.5 rounded transition-colors"><i
+              class="fa-solid fa-file-excel mr-1"></i> Exportar</button>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm border-collapse min-w-[1100px]">
+            <thead>
+              <tr class="text-left text-xs text-[#1A1A1A]/60 border-b border-[#0B7F34]/20">
+                <th class="py-2 pr-4 font-semibold">Lote</th>
+                <th class="py-2 pr-4 font-semibold">Cliente</th>
+                <th class="py-2 pr-4 font-semibold">Proveedor</th>
+                <th class="py-2 pr-4 font-semibold">Raqueta</th>
+                <th class="py-2 pr-4 font-semibold">Puja</th>
+                <th class="py-2 pr-4 font-semibold">Categoría</th>
+                <th class="py-2 pr-4 font-semibold">Cant. Animales</th>
+                <th class="py-2 pr-4 font-semibold">Peso Prom</th>
+                <th class="py-2 pr-4 font-semibold">Fecha</th>
+                <th class="py-2 font-semibold">
+                  <label class="flex items-center gap-1.5">Adjudicado
+                    <select id="filtroAdj"
+                      class="text-[11px] bg-transparent text-[#0A6229] font-semibold focus:outline-none cursor-pointer"
+                      title="Filtrar por adjudicado">
+                      <option value="todas">Todas</option>
+                      <option value="Si">Sí</option>
+                      <option value="No">No</option>
+                    </select>
+                    <i class="fa-solid fa-filter text-[#0A6229]/70"></i>
+                  </label>
+                </th>
+              </tr>
+            </thead>
+            <tbody id="tbodyReporte" class="divide-y divide-[#0B7F34]/10"></tbody>
+          </table>
+        </div>
+
+        <p id="sinResultados" class="hidden text-center text-[#1A1A1A]/40 italic py-8 text-sm">No hay registros para
+          este reporte</p>
+
+        <!-- Paginación -->
+        <div class="flex flex-wrap items-center justify-end gap-4 mt-4 text-xs text-[#1A1A1A]/70">
+          <label class="flex items-center gap-2">Items per page:
+            <select id="perPage"
+              class="border-b-2 border-[#F4C430] bg-transparent font-bold text-[#1A1A1A] focus:outline-none">
+              <option>50</option>
+              <option>100</option>
+              <option>200</option>
+            </select>
+          </label>
+          <span id="rango">0 - 0 of 0</span>
+          <div class="flex gap-2">
+            <button id="btnPrev"
+              class="w-7 h-7 rounded-full hover:bg-[#0B7F34]/10 text-[#0A6229] grid place-items-center transition-colors"><i
+                class="fa-solid fa-chevron-left"></i></button>
+            <button id="btnNext"
+              class="w-7 h-7 rounded-full hover:bg-[#0B7F34]/10 text-[#0A6229] grid place-items-center transition-colors"><i
+                class="fa-solid fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const $ = id => document.getElementById(id);
+
+    /* ================= DATOS (registro de pujas por subasta) ================= */
+    const DESCRIPCIONES = {
+      pujas: 'Informe de las pujas realizadas en los lotes indicando la raqueta y si fue adjudicado',
+      adjudicaciones: 'Informe de los lotes adjudicados indicando cliente, raqueta y valor final de la puja'
+    };
+
+    const CLIENTES = [
+      'PRESENCIAL',
+      'ALVARO MONTAYA VALENCIA 1094903828',
+      'DISTRICARNES DEL EJE CAFETERER 900513545',
+      'MARCO TULIO LLANO 16218415',
+      'CARMEN ELIZA MORENO RENTERIA 66680600',
+      'ROSA MARGARITA URIBE URIBE 29992229'
+    ];
+    const RAQUETAS = ['ASISTIDA 24', 'Raqueta # 723', 'Raqueta # 347', 'Raqueta # 513', 'Raqueta # 140', 'Raqueta # 045'];
+    const LOTES = ['001', '002', '012', '067', '068', '005'];
+    const CATEGORIAS = ['HV', 'VH', 'VI', 'TR'];
+    const PESOS = [300, 335, 480, 425, 390, 470];
+
+    const pad = n => String(n).padStart(2, '0');
+    const fmtFecha = d => `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    const fmtNum = n => n.toLocaleString('es-CO');
+
+    let pujas = [];
+    for (let i = 0; i < 60; i++) {
+      const f = new Date(2026, 8, 28, 17, 44, 9);
+      f.setSeconds(f.getSeconds() - i * 47);
+      pujas.push({
+        lote: LOTES[i % LOTES.length],
+        cliente: CLIENTES[i % CLIENTES.length],
+        proveedor: i % 5 === 0 ? 'SUGANORTE' : '—',
+        raqueta: RAQUETAS[i % RAQUETAS.length],
+        puja: 6900 + i * 50,
+        categoria: CATEGORIAS[i % CATEGORIAS.length],
+        cantAnimales: 1,
+        pesoProm: PESOS[i % PESOS.length],
+        fecha: fmtFecha(f),
+        adjudicado: i % 7 === 0 ? 'Sí' : 'No'
+      });
+    }
+
+    /* ================= FILTROS Y PAGINACIÓN ================= */
+    let pagina = 1;
+    let porPagina = 50;
+    let tipo = 'pujas';
+
+    function filtradas() {
+      const q = $('inputFiltro').value.trim().toLowerCase();
+      const adj = $('filtroAdj').value;
+      return pujas.filter(p => {
+        const okTipo = tipo !== 'adjudicaciones' || p.adjudicado === 'Sí';
+        const okAdj = adj === 'todas' || p.adjudicado === adj;
+        const okTexto = !q || [p.lote, p.cliente, p.raqueta, p.categoria, p.fecha, p.proveedor]
+          .join(' ').toLowerCase().includes(q);
+        return okTipo && okAdj && okTexto;
+      });
+    }
+
+    function render() {
+      const lista = filtradas();
+      const total = lista.length;
+      const paginas = Math.max(1, Math.ceil(total / porPagina));
+      if (pagina > paginas) pagina = paginas;
+      const ini = (pagina - 1) * porPagina;
+      const datos = lista.slice(ini, ini + porPagina);
+
+      $('sinResultados').classList.toggle('hidden', total > 0);
+      $('rango').textContent = total ? `${ini + 1} - ${ini + datos.length} of ${total}` : '0 - 0 of 0';
+      $('btnPrev').disabled = pagina === 1;
+      $('btnNext').disabled = pagina === paginas;
+      $('btnPrev').classList.toggle('opacity-40', pagina === 1);
+      $('btnNext').classList.toggle('opacity-40', pagina === paginas);
+
+      $('tbodyReporte').innerHTML = datos.map(p => `
+        <tr class="hover:bg-[#0B7F34]/5 transition-colors">
+          <td class="py-2.5 pr-4 font-semibold">${p.lote}</td>
+          <td class="py-2.5 pr-4 uppercase">${p.cliente}</td>
+          <td class="py-2.5 pr-4">${p.proveedor}</td>
+          <td class="py-2.5 pr-4 ${p.raqueta === 'ASISTIDA 24' ? 'font-semibold text-[#7D6519]' : ''}">${p.raqueta}</td>
+          <td class="py-2.5 pr-4 font-semibold">${fmtNum(p.puja)}</td>
+          <td class="py-2.5 pr-4">${p.categoria}</td>
+          <td class="py-2.5 pr-4">${p.cantAnimales}</td>
+          <td class="py-2.5 pr-4">${p.pesoProm}</td>
+          <td class="py-2.5 pr-4 text-xs">${p.fecha}</td>
+          <td class="py-2.5">${p.adjudicado === 'Sí'
+            ? '<span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-[#0B7F34]/10 text-[#0B7F34]">Sí</span>'
+            : '<span class="text-[#1A1A1A]/50">No</span>'}</td>
+        </tr>`).join('');
+    }
+
+    /* ================= TIPO DE REPORTE ================= */
+    $('tipoReporte').addEventListener('change', e => {
+      tipo = e.target.value;
+      $('tipoDesc').textContent = DESCRIPCIONES[tipo];
+      pagina = 1;
+      render();
+    });
+
+    $('btnGenerar').onclick = () => {
+      pagina = 1;
+      render();
+      const n = filtradas().length;
+      alert('Reporte generado: ' + n + ' registros');
+    };
+
+    /* ================= FILTROS Y PAGINACIÓN ================= */
+    $('inputFiltro').addEventListener('input', () => { pagina = 1; render(); });
+    $('filtroAdj').addEventListener('change', () => { pagina = 1; render(); });
+    $('perPage').addEventListener('change', e => { porPagina = +e.target.value; pagina = 1; render(); });
+    $('btnPrev').onclick = () => { if (pagina > 1) { pagina--; render(); } };
+    $('btnNext').onclick = () => { pagina++; render(); };
+
+    /* ================= EXPORTAR A EXCEL ================= */
+    $('btnExportar').onclick = () => {
+      const lista = filtradas();
+      if (!lista.length) return alert('No hay registros para exportar');
+      const cabecera = ['Lote', 'Cliente', 'Proveedor', 'Raqueta', 'Puja', 'Categoría', 'Cant. Animales', 'Peso Prom', 'Fecha', 'Adjudicado'];
+      const filas = lista.map(p =>
+        [p.lote, p.cliente, p.proveedor, p.raqueta, p.puja, p.categoria, p.cantAnimales, p.pesoProm, p.fecha, p.adjudicado]);
+      const csv = [cabecera, ...filas]
+        .map(f => f.map(c => `"${String(c).replace(/"/g, '""')}"`).join(';'))
+        .join('\r\n');
+      const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = (tipo === 'adjudicaciones' ? 'reporte_adjudicaciones' : 'reporte_pujas') + '.csv';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      alert('Se exportaron ' + lista.length + ' registros');
+    };
+
+    /* ================= MENÚ Y SUBMENÚS ================= */
+    $('btnMenu').onclick = () => $('sidebar').classList.toggle('-translate-x-52');
+
+    /* ================= MENÚ DE USUARIO ================= */
+    $('btnUser').onclick = e => {
+      e.stopPropagation();
+      $('menuUser').classList.toggle('hidden');
+    };
+    document.addEventListener('click', e => {
+      if (!$('menuUser').contains(e.target)) $('menuUser').classList.add('hidden');
+    });
+
+    $('btnUsuarios').onclick = () => {
+      $('subUsuarios').classList.toggle('hidden');
+      $('iconUsuarios').classList.toggle('fa-chevron-down');
+      $('iconUsuarios').classList.toggle('fa-chevron-up');
+    };
+
+    $('btnLotes').onclick = () => {
+      $('subLotes').classList.toggle('hidden');
+      $('iconLotes').classList.toggle('fa-chevron-down');
+      $('iconLotes').classList.toggle('fa-chevron-up');
+    };
+
+    /* ================= RELOJ ================= */
+    setInterval(() => {
+      $('relojTop').innerHTML = '<i class="fa-solid fa-clock mr-1 text-[#F4C430]"></i> ' +
+        new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }, 1000);
+
+    render();
+  </script>
+</body>
+
+</html>

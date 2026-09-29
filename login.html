@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="img/martillo.svg">
+
+  <title>Iniciar Sesión</title>
+
+  <!-- CDN de Tailwind CSS -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <!-- CDN de Font Awesome para los Iconos -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+
+  <!-- Estilos CSS -->
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body class="bg-[#063015] min-h-screen flex items-center justify-center p-4">
+
+  <!-- Contenedor Principal (Layout de Pantalla Dividida) -->
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 bg-white w-full max-w-4xl min-h-[550px] rounded-2xl shadow-2xl overflow-hidden">
+
+    <!-- Panel Izquierdo: Visual (Oculto em móvil, visible desde tablets 'md:') -->
+    <div
+      class="hidden md:flex flex-col justify-center bg-gradient-to-br from-[#0B7F34] to-[#08491F] text-white p-12 relative">
+      <div class="space-y-4">
+        <h1 class="text-4xl font-bold leading-tight">
+          <i class="fa-solid fa-gavel mr-1 text-[#F4C430] text-5xl"></i>
+          App Pujas
+        </h1>
+        <p class="text-white/80 text-base leading-relaxed">Sistema de Pujas Virtuales para Subastas y Ferias Ganaderas</p>
+      </div>
+
+      <!-- Elemento decorativo sutil en el fondo -->
+      <div class="absolute bottom-4 left-12 text-sm text-white/60">
+        <!-- <i class="fa-solid fa-shield-halved mr-1"></i> Conexión Encriptada SSL -->
+        
+      </div>
+    </div>
+
+    <!-- Panel Derecho: Formulario -->
+    <div class="flex items-center justify-center p-8 sm:p-12">
+      <form class="w-full max-w-sm space-y-6">
+
+        <!-- Encabezado -->
+        <div>
+          <h2 class="text-2xl font-bold text-[#1A1A1A]">Ingresar</h2>
+          <p class="text-sm text-[#1A1A1A]/60 mt-1">Introduce tus credenciales</p>
+        </div>
+
+        <!-- Campo: Correo Electrónico -->
+        <div class="space-y-1">
+          <label for="email" class="text-sm font-semibold text-[#1A1A1A]/80">Correo Electrónico</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#0A6229]/70">
+              <i class="fa-solid fa-envelope"></i>
+            </div>
+            <input type="email" id="email" required
+              class="w-full pl-10 pr-4 py-3 bg-[#0B7F34]/5 border border-[#0A6229]/25 rounded-lg text-sm text-[#1A1A1A] placeholder:text-[#1A1A1A]/40 focus:outline-none focus:border-[#0B7F34] focus:ring-4 focus:ring-[#0B7F34]/15 transition-all"
+              placeholder="nombre@correo.com">
+          </div>
+        </div>
+
+        <!-- Campo: contraseña -->
+        <div class="space-y-1">
+          <label for="password" class="text-sm font-semibold text-[#1A1A1A]/80">Contraseña</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 pl-3 flex items-center pointer-events-none text-[#0A6229]/70">
+              <i class="fa-solid fa-lock"></i>
+            </div>
+            <input type="password" id="password" required
+              class="w-full pl-10 pr-10 py-3 bg-[#0B7F34]/5 border border-[#0A6229]/25 rounded-lg text-sm text-[#1A1A1A] placeholder:text-[#1A1A1A]/40 focus:outline-none focus:border-[#0B7F34] focus:ring-4 focus:ring-[#0B7F34]/15 transition-all"
+              placeholder="••••••••">
+
+            <!-- Botón interactivo para alternar visibilidad -->
+            <button type="button" id="togglePassword"
+              class="absolute inset-y-0 right-0 pr-3 flex items-center text-[#0A6229]/60 hover:text-[#063015] transition-colors">
+              <i id="eyeIcon" class="fa-solid fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Opciones secundarias -->
+        <div class="flex items-center justify-between text-sm">
+          <label class="flex items-center space-x-2 text-[#1A1A1A]/70 cursor-pointer select-none">
+            <input type="checkbox" class="w-4 h-4 text-[#0B7F34] border-[#0A6229]/40 rounded focus:ring-[#0B7F34]">
+            <span>Recordarme</span>
+          </label>
+          <a href="#" class="font-medium text-[#0A6229] hover:text-[#063015] hover:underline">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <!-- Botón Iniciar sesión -->
+        <a href="index.html"
+          class="w-full bg-[#0B7F34] hover:bg-[#08491F] text-white font-semibold py-3 px-4 rounded-lg shadow-sm hover:shadow transition-all active:scale-[0.98] flex items-center justify-center space-x-2">
+          <span>Iniciar sesión</span>
+        </a>
+
+        <!-- Enlace de registro inferior -->
+        <p class="text-center text-sm text-[#1A1A1A]/70 pt-2">
+          ¿No tienes una cuenta?
+          <a href="#" class="font-semibold text-[#0A6229] hover:text-[#063015] hover:underline">Regístrate</a>
+        </p>
+      </form>
+    </div>
+
+  </div>
+
+</body>
+
+<script src="js/login.js"></script>
+
+</html>
